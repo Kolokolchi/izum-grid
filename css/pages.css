@@ -1,0 +1,233 @@
+/* Izum — внутренние страницы. Строятся на той же сетке знака, что и главная (site.css).
+   Схема страницы взята у примера: обложка с названием → секции «заголовок слева, текст справа» →
+   чередование фото и текста → сетка карточек → заявка и подвал. Формы — из знака:
+   · обложка: стойка I входит в арку U, в арке — название страницы; справа фото под диагональю Z;
+   · карточки: четыре колонки = половины арки и половины M, между ними — просвет знака («шов»);
+   · этапы: одна строчка идёт по шву, на ней точки. */
+
+/* ---------- Обложка ---------- */
+.cover { position: relative; }
+.cover-grid { position: relative; display: grid; grid-template-columns: var(--grid); grid-template-rows: var(--hh) minmax(0, .36fr) minmax(0, .64fr); height: max(100svh, 620px); container-type: inline-size; }
+.cover-grid > * { --C: calc(100cqw - 2 * var(--rail)); }
+.cover-grid::before { content: ""; grid-column: 1 / -1; grid-row: 1; position: relative; z-index: 2; border-bottom: 1px solid var(--hair); }
+
+/* I: стойка от верха экрана до арки */
+.cover-stem { grid-column: 2; grid-row: 1 / 3; justify-self: center; position: relative; z-index: 3; width: 2px; background: var(--ink); transform-origin: top; }
+.cover-top { grid-column: 2; grid-row: 2; position: relative; z-index: 3; display: grid; grid-template-columns: 1fr 1fr; align-items: end; padding-bottom: clamp(14px, 2.6vh, 28px); }
+.cover-n { justify-self: end; padding-right: clamp(14px, 1.8cqw, 28px); font-weight: 300; font-size: clamp(46px, 5.4cqw, 84px); line-height: .78; letter-spacing: -.02em; color: rgba(13, 13, 13, .16); }
+.crumbs { display: flex; flex-wrap: wrap; gap: 4px 10px; padding-left: clamp(14px, 1.8cqw, 28px); font-weight: 500; font-size: 10px; line-height: 1.5; letter-spacing: .2em; text-transform: uppercase; color: var(--mute); }
+.crumbs a { text-decoration: none; color: var(--ink); }
+.crumbs a::after { content: "/"; margin-left: 10px; color: var(--mute); }
+.crumbs a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* U: арка, в ней название страницы */
+.cover-arch { grid-column: 2; grid-row: 3; position: relative; z-index: 3; margin: 0 -1px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: calc(var(--C) * .07) var(--in) clamp(26px, 5.4vh, 58px); border: 2px solid var(--ink); border-bottom: 0; border-radius: calc(var(--C) * .1049) calc(var(--C) * .1049) 0 0; background: var(--paper); }
+.hd-cover { font-size: clamp(23px, min(3cqw, 5vh), 46px); line-height: 1.08; }
+.hd-cover::after { width: clamp(84px, 8cqw, 120px); height: clamp(5px, .9vh, 8px); margin-top: .55em; }
+.cover-arch .sub { margin-top: clamp(12px, 2vh, 20px); }
+.cover-lead { margin: clamp(12px, 2.4vh, 24px) 0 0; max-width: 44ch; font-size: clamp(13px, min(1.15cqw, 1.72vh), 15px); line-height: 1.7; color: var(--text); }
+.cover-arch .btn { margin-top: clamp(14px, 3vh, 28px); min-height: clamp(44px, 5.8vh, 52px); }
+
+/* Z: фото под диагональю */
+.cover-pic { grid-column: 3 / 5; grid-row: 2 / 4; position: relative; z-index: 2; overflow: hidden; background: var(--soft); clip-path: polygon(11.14% 0, 100% 0, 100% 100%, 0 100%); }
+.cover-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cover-cut { grid-column: 3; grid-row: 2 / 4; position: relative; z-index: 3; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.cover-cut path { fill: none; stroke: var(--ink); stroke-width: 2; }
+.cover-cap { position: absolute; right: 0; bottom: 0; margin: 0; padding: 16px 22px; display: grid; gap: 4px; background: var(--plate); color: var(--on-plate); transition: background .5s, color .5s; }
+.cover-cap b { font-weight: 700; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+.cover-cap span { font-weight: 500; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; opacity: .8; }
+
+/* появление обложки: стойка растёт сверху вниз, потом арка и фото */
+.js .cover-stem { animation: stemIn 1s var(--ease) both; }
+.js .cover-arch, .js .cover-top { animation: fadeUp .9s var(--ease) .55s both; }
+.js .cover-pic { animation: picIn 1.3s var(--ease) .3s both; }
+.js .cover-cut { animation: fadeIn .8s var(--ease) .9s both; }
+@keyframes stemIn { from { transform: scaleY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } }
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes picIn { from { opacity: 0; } }
+.js .cover-pic img { animation: zoomOut 2.4s var(--ease) .3s both; }
+@keyframes zoomOut { from { transform: scale(1.08); } }
+
+/* ---------- Полоса выбора цвета: восемь точек знака, справа — цветной блок ---------- */
+.s-bar { border-top: 0; }
+.pickbar { grid-column: 2 / 5; position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 41.55fr) minmax(0, 6.51fr) minmax(0, 25.97fr) minmax(0, 25.97fr); min-height: var(--hh); background: var(--soft); border-bottom: 1px solid var(--hair); }
+.pick { display: flex; align-items: center; gap: 22px; padding: 16px var(--in); }
+.pick > span { font-weight: 700; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; }
+/* точки стоят матрицей 4×2 — та же матрица, что в арке знака, положенная набок */
+.pick-dots { display: grid; grid-template-columns: repeat(4, 22px); gap: 9px 12px; }
+.pick-dots button { appearance: none; width: 22px; aspect-ratio: 1; margin: 0; padding: 0; border: 2px solid var(--ink); border-radius: 50%; background: var(--c); cursor: pointer; transition: transform .35s var(--ease), box-shadow .35s; }
+.pick-dots button:hover { transform: scale(1.22); }
+.pick-dots button.on { box-shadow: 0 0 0 3px var(--soft), 0 0 0 5px var(--ink); }
+.pick-note { grid-column: 3; align-self: center; margin: 0 !important; padding: 16px var(--in); font-size: 12px; line-height: 1.55 !important; color: var(--mute) !important; }
+.pick-go { grid-column: 4; display: flex; align-items: center; justify-content: center; gap: 14px; padding: 16px 20px; background: var(--plate); color: var(--on-plate); text-decoration: none; font-weight: 700; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; text-align: center; transition: background .3s, color .3s; }
+.pick-go svg { flex: none; width: 22px; fill: none; stroke: currentColor; stroke-width: 2; }
+.pick-go:hover { background: var(--ink); color: #fff; }
+.pick-in { margin-top: 28px; padding: 0; }
+.pick-in .pick-dots button.on { box-shadow: 0 0 0 3px var(--bg, var(--paper)), 0 0 0 5px var(--ink); }
+
+/* ---------- Карточки: половины арки · шов · половины M ---------- */
+.s-soft { --bg: var(--soft); }
+.cards { grid-column: 2 / 5; position: relative; z-index: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 20.775fr)) minmax(0, 6.51fr) repeat(2, minmax(0, 25.97fr)); margin: calc(var(--pad) * -.3) 0 0; }
+.card { position: relative; display: flex; flex-direction: column; padding-bottom: 30px; border-top: 1px solid var(--hair); border-right: 1px solid var(--hair); color: inherit; text-decoration: none; }
+.card:nth-child(4n+3) { grid-column: 4; }
+.card:nth-child(4n+1), .card:nth-child(4n+3) { border-left: 1px solid var(--hair); margin-left: -1px; }
+/* высота картинки одна на весь ряд: колонки арки уже колонок M, а подписи должны стоять на одной линии */
+.card-pic { position: relative; display: grid; place-items: center; height: clamp(230px, 22vw, 330px); overflow: hidden; }
+.card-pic img { width: auto; height: 72%; max-width: 76%; object-fit: contain; filter: drop-shadow(0 16px 18px rgba(13, 13, 13, .14)); transition: transform .8s var(--ease); }
+.card:hover .card-pic img { transform: scale(1.07) rotate(-2deg); }
+.card i { position: absolute; left: 18px; top: 16px; z-index: 1; font-style: normal; font-weight: 500; font-size: 10px; letter-spacing: .24em; color: var(--mute); }
+.card h3 { margin: 0; padding: 0 16px; font-weight: 700; font-size: 12px; line-height: 1.4; letter-spacing: .12em; text-transform: uppercase; text-align: center; }
+.s .card p { margin: 8px auto 0; padding: 0 16px; max-width: 30ch; font-size: 12px; line-height: 1.55; text-align: center; color: var(--mute); }
+a.card h3 { background: linear-gradient(var(--ink), var(--ink)) 50% 100% / 0 2px no-repeat; transition: background-size .5s var(--ease); align-self: center; padding: 0 0 6px; margin: 0 16px; }
+a.card:hover h3 { background-size: 100% 2px; }
+/* последняя ячейка ряда — цветная: «ваша модель» */
+.card-cta { grid-column: 4 / 6 !important; justify-content: center; align-items: flex-start; gap: 14px; padding: 30px var(--in); background: var(--plate); color: var(--on-plate); border-color: transparent; transition: background .3s, color .3s; }
+.card-cta b { font-weight: 300; font-size: clamp(20px, 2.2vw, 32px); line-height: 1.15; letter-spacing: .06em; text-transform: uppercase; }
+.card-cta b strong { display: block; font-weight: 700; letter-spacing: .01em; }
+.card-cta span { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
+.card-cta svg { width: 22px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform .4s var(--ease); }
+.card-cta:hover { background: var(--ink); color: #fff; }
+.card-cta:hover svg { transform: translateX(6px); }
+.cards-end { grid-column: 2 / 5; height: calc(var(--pad) * .8); border-top: 1px solid var(--hair); position: relative; z-index: 2; }
+
+/* ---------- Этапы: одна строчка идёт по шву ---------- */
+.flow { grid-column: 1 / -1; position: relative; z-index: 2; list-style: none; margin: calc(var(--pad) * -.4) 0 0; padding: 0 0 calc(var(--pad) * .8); }
+.flow li { position: relative; display: grid; grid-template-columns: var(--grid); }
+.flow li::before { content: ""; grid-column: 3; grid-row: 1; justify-self: center; width: 2px; background: var(--ink); }
+.flow li:first-child::before { margin-top: 34px; }
+.flow li:last-child::before { height: 34px; }
+.flow li::after { content: ""; grid-column: 3; grid-row: 1; justify-self: center; align-self: start; margin-top: 25px; width: 18px; height: 18px; border: 2px solid var(--ink); border-radius: 50%; background: var(--bg, var(--paper)); transition: background .3s, transform .3s var(--ease); }
+.flow li:hover::after { background: var(--plate); transform: scale(1.25); }
+.flow-a { grid-column: 2; grid-row: 1; display: flex; align-items: baseline; justify-content: flex-end; gap: 16px; padding: 22px var(--in) 26px; text-align: right; }
+.flow-a i { font-style: normal; font-weight: 500; font-size: 10px; letter-spacing: .24em; color: var(--mute); }
+.flow-a h3 { margin: 0; font-weight: 700; font-size: clamp(13px, 1.25vw, 17px); line-height: 1.35; letter-spacing: .1em; text-transform: uppercase; }
+.flow-b { grid-column: 4; grid-row: 1; padding: 22px var(--in) 26px; }
+.s .flow-b p { margin: 0; max-width: 52ch; }
+
+/* ---------- Списки ---------- */
+/* маркер — точка знака */
+.ticks { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 12px; max-width: 46ch; }
+.ticks li { position: relative; padding-left: 24px; line-height: 1.6; color: var(--text); }
+.ticks li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.col-fill { background: var(--plate); color: var(--on-plate); transition: background .5s, color .5s; }
+.col-fill .ticks li, .col-fill p { color: inherit; }
+.col-fill .hd::after { background: currentColor; }
+.col-fill .dir-n { color: inherit; opacity: .28; }
+.col-a .dir-n, .col-b .dir-n { margin-bottom: 10px; }
+.ticks + .more { margin-top: 30px; }
+
+.facts { border-top: 2px solid var(--ink); }
+.facts > div { display: grid; grid-template-columns: minmax(0, .46fr) minmax(0, 1fr); gap: 6px 24px; padding: 22px 0; border-bottom: 1px solid var(--hair); }
+.facts b { font-weight: 700; font-size: 12px; line-height: 1.5; letter-spacing: .12em; text-transform: uppercase; }
+.facts span { line-height: 1.7; color: var(--text); }
+
+.faq { border-top: 2px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--hair); }
+.faq summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; cursor: pointer; list-style: none; font-weight: 700; font-size: 12px; line-height: 1.5; letter-spacing: .1em; text-transform: uppercase; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 14px; height: 14px; background: linear-gradient(var(--ink), var(--ink)) 50% 50% / 100% 2px no-repeat, linear-gradient(var(--ink), var(--ink)) 50% 50% / 2px 100% no-repeat; transition: transform .35s var(--ease); }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.s .faq p { margin: -4px 0 24px; }
+
+/* ---------- Чередование фото и текста (как на главной): крупное фото открывает просмотр ---------- */
+.dir-pic > a { position: absolute; inset: 0; display: block; }
+.dir-pic > a > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s var(--ease); }
+.dir:hover .dir-pic > a > img { transform: scale(1.04); }
+.dir-tag { position: absolute; bottom: 0; padding: 14px 20px; background: var(--plate); color: var(--on-plate); font-weight: 700; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; transition: background .3s, color .3s; }
+.dir-pic-l .dir-tag { left: 0; }
+.dir-pic-r .dir-tag { right: 0; }
+.dir-pic > a:hover .dir-tag { background: var(--ink); color: #fff; }
+.dir .hd { font-size: clamp(21px, 2.3vw, 34px); }
+.thumbs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; max-width: 440px; margin: 26px 0 0; }
+.thumbs-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 520px; }
+.thumbs a { position: relative; display: block; aspect-ratio: 1; overflow: hidden; background: var(--soft); }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.06); transition: filter .5s, transform .9s var(--ease); }
+.thumbs a:hover img, .thumbs a:focus-visible img { filter: none; transform: scale(1.07); }
+.thumbs + .more { margin-top: 26px; }
+
+/* ---------- Заявка: дополнительные поля ---------- */
+.form select { width: 100%; min-width: 0; padding: 16px 18px; border: 2px solid currentColor; border-radius: 0; background: rgba(255, 255, 255, .22); color: inherit; font: inherit; appearance: none; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%; background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; }
+.form select option { color: #0d0d0d; background: #fff; }
+.s-plate .sub { color: inherit; opacity: .7; }
+.s-plate .more { margin-top: 18px; }
+
+/* ---------- Просмотр фото (gallery.js). Префикс pv-: класс .lb занят в конструкторе ---------- */
+html.pv-open { overflow: hidden; }
+.pv { position: fixed; inset: 0; z-index: 100; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: var(--paper); color: var(--ink); }
+.pv::backdrop { background: var(--paper); }
+.pv[open] { display: grid; grid-template-rows: minmax(0, 1fr) auto; animation: fadeIn .3s var(--ease); }
+.pv-fig { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; min-height: 0; padding: clamp(16px, 3vw, 42px) clamp(70px, 8vw, 128px) 0; touch-action: pan-y; }
+.pv-fig img { width: auto; height: auto; max-width: 100%; max-height: 100%; transition: opacity .25s; }
+.pv-fig img.wait { opacity: .35; }
+.pv-bar { display: flex; align-items: center; justify-content: center; gap: 18px; padding: 18px 20px max(20px, env(safe-area-inset-bottom)); font-weight: 700; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
+.pv-n { font-weight: 500; color: var(--mute); }
+.pv-prev, .pv-next, .pv-x { appearance: none; position: absolute; width: 52px; height: 52px; display: grid; place-items: center; padding: 0; border: 2px solid var(--ink); border-radius: 0; background: var(--paper); font-size: 18px; line-height: 1; cursor: pointer; transition: background .3s, color .3s; }
+.pv-prev:hover, .pv-next:hover, .pv-x:hover { background: var(--ink); color: #fff; }
+.pv-x { top: 18px; right: 18px; }
+.pv-prev, .pv-next { top: 50%; margin-top: -26px; }
+.pv-prev { left: clamp(8px, 2vw, 36px); }
+.pv-next { right: clamp(8px, 2vw, 36px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .cover-stem, .js .cover-arch, .js .cover-top, .js .cover-pic, .js .cover-pic img, .js .cover-cut { animation: none; }
+}
+
+/* ---------- Низкие экраны ноутбуков ---------- */
+@media (min-width: 901px) and (max-height: 760px) {
+  .cover-lead { display: none; }
+}
+@media (min-width: 901px) and (max-width: 1180px) {
+  .pickbar { grid-template-columns: minmax(0, 41.55fr) minmax(0, 6.51fr) minmax(0, 51.94fr); }
+  .pick-note { display: none; }
+  .pick-go { grid-column: 3; }
+  .facts > div { grid-template-columns: 1fr; }
+  .thumbs-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---------- Телефон и планшет ---------- */
+@media (max-width: 900px) {
+  .cover-grid { display: flex; flex-direction: column; height: auto; padding: var(--hh) var(--rail) 0; }
+  .cover-grid::before, .cover-stem, .cover-cut { display: none; }
+  .cover-top { order: 1; grid-template-columns: auto 1fr; padding: 26px 0 18px; }
+  .cover-n { justify-self: start; padding: 0 14px 0 0; font-size: 56px; }
+  .crumbs { padding: 0 0 4px; }
+  .cover-arch { order: 2; margin: 0; padding: 62px 22px 34px; border-radius: 22vw 22vw 0 0; }
+  .hd-cover { font-size: clamp(25px, 7.6vw, 42px); }
+  .cover-lead { max-width: none; font-size: 15px; }
+  .cover-arch .btn { width: 100%; }
+  .cover-pic { order: 3; height: 92vw; max-height: 560px; border: 2px solid var(--ink); border-bottom: 0; clip-path: none; }
+
+  .pickbar { grid-column: 2; grid-template-columns: 1fr; margin: 0 calc(var(--rail) * -1); }
+  .pick { padding: 18px var(--rail); }
+  .pick-note { display: none; }
+  .pick-go { grid-column: 1; min-height: 56px; }
+  .pick-in { margin: 22px 0 0; padding: 0; }
+
+  .cards { grid-column: 2; grid-template-columns: 1fr 1fr; margin: 0; }
+  .card:nth-child(4n+3) { grid-column: auto; }
+  .card:nth-child(4n+1), .card:nth-child(4n+3) { margin-left: 0; border-left: 0; }
+  .card:nth-child(2n) { border-right: 0; }
+  .card i { left: 12px; }
+  .card-cta { grid-column: 1 / -1 !important; padding: 34px 22px; border: 0; }
+  .cards-end { grid-column: 2; height: var(--pad); }
+  .s-grid > .col-b + .cards, .s-grid > .col-b + .flow { margin-top: var(--pad); }
+
+  .flow { grid-column: 2; margin-top: 0; padding: 0 0 var(--pad) 9px; }
+  .flow li { display: block; padding: 0 0 30px 34px; border-left: 2px solid var(--ink); }
+  .flow li:last-child { border-left-color: transparent; }
+  .flow li::before { display: none; }
+  .flow li::after { position: absolute; left: -10px; top: 0; margin: 0; }
+  .flow-a { justify-content: flex-start; flex-direction: column; gap: 6px; padding: 0 0 8px; text-align: left; }
+  .flow-b { padding: 0; }
+
+  .facts > div { grid-template-columns: 1fr; }
+  .col-fill { margin: 0 calc(var(--rail) * -1); padding: var(--pad) var(--rail); }
+  .col-fill + .spine + .col-b { padding-top: var(--pad); }
+  .thumbs-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dir-txt .thumbs { max-width: none; }
+
+  .pv-fig { padding: 82px 12px 0; }
+  .pv-bar { flex-wrap: wrap; gap: 6px 14px; min-height: 86px; padding-inline: 72px; text-align: center; line-height: 1.4; letter-spacing: .14em; }
+  .pv-prev, .pv-next { top: auto; bottom: max(16px, env(safe-area-inset-bottom)); margin: 0; }
+}

@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add("js")</script>
+  <title>Производство — швейный и печатный цех в Алматы · Izum</title>
+  <meta name="description" content="Собственное швейное и печатное производство Izum в Алматы: все этапы заказа в одном месте, контроль качества от ткани до нанесения.">
+  <!-- Черновик: до запуска страница закрыта от поисковиков. -->
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="img/izum-logo.png">
+  <link rel="preload" href="fonts/GothamPro-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/GothamPro-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/site.css?v=1118c">
+  <link rel="stylesheet" href="css/pages.css?v=1118c">
+</head>
+<body data-page="2">
+  <!-- Сетка страницы взята из знака Izum: ножки арки U и ножки M продолжены вниз на всю страницу (.frame). -->
+  <div class="frame" aria-hidden="true"><i></i><i></i></div>
+
+  <!-- Левая стойка: знак, меню (арка с восемью точками — восемь разделов), наверх -->
+  <aside class="rail rail-l">
+    <a class="rail-logo" href="index.html" aria-label="Izum Design &amp; Production — на главную">
+      <img src="img/izum-logo.png" srcset="img/izum-logo.png 1x, img/izum-logo-2x.png 2x" width="51" height="62" alt="Izum Design &amp; Production">
+    </a>
+    <button class="rail-menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">
+      <svg class="glyph" viewBox="0 -15 39.5 61.5" aria-hidden="true">
+        <path d="M19.8-15V2.75M2.75 46.5V12.75a10 10 0 0 1 10-10h14a10 10 0 0 1 10 10V46.5"/>
+        <g id="navDots">
+          <circle cx="14.55" cy="13.3" r="1.7"/><circle cx="14.55" cy="23.2" r="1.7"/><circle cx="14.55" cy="33.2" r="1.7"/><circle cx="14.55" cy="43.2" r="1.7"/>
+          <circle cx="25.05" cy="13.3" r="1.7"/><circle cx="25.05" cy="23.2" r="1.7"/><circle cx="25.05" cy="33.2" r="1.7"/><circle cx="25.05" cy="43.2" r="1.7"/>
+        </g>
+      </svg>
+      <span class="rail-menu-t" data-open="Меню" data-close="Закрыть">Меню</span>
+    </button>
+    <a class="rail-up" href="#top" aria-label="Наверх"><svg viewBox="0 0 44 24" aria-hidden="true"><path d="M2 22L22 3l20 19"/></svg></a>
+  </aside>
+
+  <!-- Правая стойка: заявка, конструктор и WhatsApp -->
+  <aside class="rail rail-r">
+    <a class="rail-cta" href="#contact">Заказать</a>
+    <a class="rail-mk" href="constructor.html">
+      <svg viewBox="0 0 39.5 49.5" aria-hidden="true"><path d="M2.75 46.5V12.75a10 10 0 0 1 10-10h14a10 10 0 0 1 10 10V46.5"/><path class="plus" d="M19.75 17.5v15M12.25 25h15"/></svg>
+      <span>Конструктор</span>
+    </a>
+    <a class="rail-wa" href="https://wa.me/77771737475" target="_blank" rel="noopener" aria-label="Написать в WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27l1.6-5.6A11 11 0 1 1 11 25.5z"/><path d="M11.6 11.2c.4 4.6 4 8.400 8.800 8.800"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </aside>
+
+  <!-- Меню во весь экран -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <div class="frame frame-in" aria-hidden="true"><i></i><i></i></div>
+    <div class="menu-grid">
+      <nav class="menu-nav" aria-label="Разделы">
+        <a href="index.html"><i>01</i>Главная</a>
+        <a href="index.html#about"><i>02</i>О компании</a>
+        <a href="production.html" aria-current="page"><i>03</i>Производство</a>
+        <a href="wholesale.html"><i>04</i>Одежда оптом</a>
+        <a href="products.html"><i>05</i>Продукция</a>
+        <a href="constructor.html"><i>06</i>Конструктор</a>
+        <a href="index.html#process"><i>07</i>Как работаем</a>
+        <a href="#contact"><i>08</i>Контакты</a>
+      </nav>
+      <div class="menu-side">
+        <button class="menu-x" id="menuX" type="button" aria-label="Закрыть меню">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0L100 100M100 0L0 100" vector-effect="non-scaling-stroke"/></svg>
+          <span>Закрыть</span>
+        </button>
+        <div class="menu-contacts">
+          <a href="tel:+77771737475">+7 (777) 173 74 75</a>
+          <a href="mailto:ceo.manager@izumerch.kz">ceo.manager@izumerch.kz</a>
+          <span>Алматы, мкр. Мамыр, ул. Степная, 6 · Пн–Пт, 9:00–18:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ============ Обложка: стойка I входит в арку U, в арке — название; справа фото под диагональю Z ============ -->
+    <section class="cover" id="top">
+      <div class="cover-grid">
+        <i class="cover-stem" aria-hidden="true"></i>
+        <div class="cover-top">
+          <span class="cover-n" aria-hidden="true">03</span>
+          <nav class="crumbs" aria-label="Вы здесь"><a href="index.html">Главная</a><span>Производство</span></nav>
+        </div>
+        <div class="cover-arch">
+          <h1 class="hd hd-cover"><span class="hd-a">Наше</span><span class="hd-b">производство</span></h1>
+          <p class="sub">Швейный и печатный цех · Алматы</p>
+          <p class="cover-lead">Собственная производственная база и команда: швейный и печатный цех работают на одной площадке.</p>
+          <a class="btn btn-fill" href="#shops">Смотреть цеха</a>
+        </div>
+        <div class="cover-pic">
+          <img src="img/production/sew-02-800.webp" srcset="img/production/sew-02-800.webp 800w, img/production/sew-02-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 56vw" width="800" height="1067" fetchpriority="high" decoding="async" alt="Швейный цех, на стене — логотип Izum Design Production" style="object-position: 50% 38%">
+          <p class="cover-cap"><b>Швейный цех</b><span>Алматы, мкр. Мамыр</span></p>
+        </div>
+        <svg class="cover-cut" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M100 0L0 100" vector-effect="non-scaling-stroke"/></svg>
+      </div>
+    </section>
+
+    <!-- ============ Принцип ============ -->
+    <section class="s" id="intro">
+      <div class="s-grid">
+        <div class="col-a">
+          <h2 class="hd" data-rev><span class="hd-a">Мы не агентство.</span><span class="hd-b">Мы — продакшн.</span></h2>
+          <p class="sub" data-rev>Принцип нашей работы</p>
+          <div class="nums">
+            <div data-rev><b data-n="90" data-suf="%">90%</b><span>клиентов обращаются повторно и&nbsp;рекомендуют нас</span></div>
+            <div data-rev style="--i:1"><b data-n="1">1</b><span>подрядчик вместо нескольких</span></div>
+            <div data-rev style="--i:2"><b data-n="5">5</b><span>технологий нанесения у&nbsp;себя</span></div>
+          </div>
+        </div>
+        <div class="spine"><span>03 — Производство</span></div>
+        <div class="col-b">
+          <h3 class="h-sm" data-rev>Всё на одной площадке</h3>
+          <p data-rev>У нас собственная производственная база и команда: швейный и печатный цех на одной площадке. Поэтому идея, пошив, нанесение и тираж не расходятся по разным подрядчикам.</p>
+          <h3 class="h-sm" data-rev>Контроль от ткани до нанесения</h3>
+          <p data-rev>Все этапы заказа проходят в одном месте: меньше подрядчиков, согласований и потерянного времени. За результат отвечает одна команда.</p>
+          <a class="btn btn-wide" href="#contact" data-rev>Приехать на производство</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Цеха изнутри. Снимки прислал заказчик 17.11.2026; ссылка ведёт на крупную версию, с gallery.js — в просмотр ============ -->
+    <section class="s s-soft" id="shops">
+      <div class="s-grid">
+        <div class="col-a">
+          <h2 class="hd" data-rev><span class="hd-a">Как это</span><span class="hd-b">выглядит у нас</span></h2>
+          <p class="sub" data-rev>Цеха изнутри</p>
+        </div>
+        <div class="spine"><span>Пять цехов</span></div>
+        <div class="col-b">
+          <p data-rev>Снимки с нашего производства: пошив, три технологии печати и литьё шевронов. Нажмите на фото, чтобы рассмотреть.</p>
+        </div>
+      </div>
+    </section>
+    <section class="s s-dirs">
+      <div class="dir" data-group>
+        <div class="dir-pic dir-pic-l" data-gallery>
+          <a href="img/production/sew-01-1600.webp" data-cap="Швейный цех"><img src="img/production/sew-01-800.webp" srcset="img/production/sew-01-800.webp 800w, img/production/sew-01-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 52vw" width="800" height="1067" loading="lazy" decoding="async" alt="Швейный цех: ряды машин, швеи шьют жёлтые изделия" style="object-position: 50% 46%"><span class="dir-tag">Смотреть · 5 фото</span></a>
+        </div>
+        <svg class="dir-cut" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M100 0L0 100" vector-effect="non-scaling-stroke"/></svg>
+        <div class="dir-txt dir-txt-r">
+          <span class="dir-n" data-rev>01</span>
+          <h3 class="hd" data-rev><span class="hd-a">Швейный</span><span class="hd-b">цех</span></h3>
+          <p data-rev>Раскрой, пошив и упаковка тиража.</p>
+          <div class="thumbs" data-gallery data-rev>
+            <a href="img/production/sew-05-1600.webp" data-cap="Раскрой"><img src="img/production/sew-05-800.webp" srcset="img/production/sew-05-800.webp 800w, img/production/sew-05-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Раскройный стол: мастер размечает полотно с принтом" style="object-position: 50% 62%"></a>
+            <a href="img/production/sew-04-1600.webp" data-cap="Пошив"><img src="img/production/sew-04-800.webp" srcset="img/production/sew-04-800.webp 800w, img/production/sew-04-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Швеи за промышленными машинами"></a>
+            <a href="img/production/sew-07-1600.webp" data-cap="Детали кроя"><img src="img/production/sew-07-800.webp" srcset="img/production/sew-07-800.webp 800w, img/production/sew-07-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Стопки жёлтых деталей кроя на раскройном столе"></a>
+            <a href="img/production/sew-10-1600.webp" data-cap="Упаковка тиража"><img src="img/production/sew-10-800.webp" srcset="img/production/sew-10-800.webp 800w, img/production/sew-10-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Сотрудницы упаковывают готовые изделия в пакеты"></a>
+          </div>
+        </div>
+      </div>
+      <div class="dir" data-group>
+        <div class="dir-pic dir-pic-r" data-gallery>
+          <a href="img/production/silk-17-1600.webp" data-cap="Шелкография: печать через трафарет"><img src="img/production/silk-17-800.webp" srcset="img/production/silk-17-800.webp 800w, img/production/silk-17-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 52vw" width="800" height="1067" loading="lazy" decoding="async" alt="Печатник протягивает ракель по трафарету с оранжевой краской" style="object-position: 50% 62%"><span class="dir-tag">Смотреть · 5 фото</span></a>
+        </div>
+        <svg class="dir-cut" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M100 0L0 100" vector-effect="non-scaling-stroke"/></svg>
+        <div class="dir-txt dir-txt-l">
+          <span class="dir-n" data-rev>02</span>
+          <h3 class="hd" data-rev><span class="hd-b">Шелкография</span></h3>
+          <p data-rev>Трафареты готовим и промываем у себя, печатаем на карусельных станках.</p>
+          <div class="thumbs" data-gallery data-rev>
+            <a href="img/production/silk-11-1600.webp" data-cap="Цех шелкографии"><img src="img/production/silk-11-800.webp" srcset="img/production/silk-11-800.webp 800w, img/production/silk-11-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Цех шелкографии с карусельными печатными станками"></a>
+            <a href="img/production/silk-13-1600.webp" data-cap="Подготовка трафарета"><img src="img/production/silk-13-800.webp" srcset="img/production/silk-13-800.webp 800w, img/production/silk-13-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Мастер выравнивает макет на трафаретной раме"></a>
+            <a href="img/production/silk-16-1600.webp" data-cap="Промывка трафарета"><img src="img/production/silk-16-800.webp" srcset="img/production/silk-16-800.webp 800w, img/production/silk-16-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Трафаретную раму промывают струёй воды"></a>
+            <a href="img/production/silk-25-1600.webp" data-cap="Печать на чёрном трикотаже"><img src="img/production/silk-25-800.webp" srcset="img/production/silk-25-800.webp 800w, img/production/silk-25-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Многоцветный принт с драконом на чёрной футболке на столе станка" style="object-position: 50% 70%"></a>
+          </div>
+        </div>
+      </div>
+      <div class="dir" data-group>
+        <div class="dir-pic dir-pic-l" data-gallery>
+          <a href="img/production/dtf-33-1600.webp" data-cap="DTF-печать: плёнка с макетами"><img src="img/production/dtf-33-800.webp" srcset="img/production/dtf-33-800.webp 800w, img/production/dtf-33-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 52vw" width="800" height="1067" loading="lazy" decoding="async" alt="DTF-принтер выпускает плёнку с отпечатанными логотипами" style="object-position: 50% 45%"><span class="dir-tag">Смотреть · 5 фото</span></a>
+        </div>
+        <svg class="dir-cut" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M100 0L0 100" vector-effect="non-scaling-stroke"/></svg>
+        <div class="dir-txt dir-txt-r">
+          <span class="dir-n" data-rev>03</span>
+          <h3 class="hd" data-rev><span class="hd-a">DTF-</span><span class="hd-b">печать</span></h3>
+          <p data-rev>Печать на плёнку и перенос прессом: на футболки, шоперы, детали кроя.</p>
+          <div class="thumbs" data-gallery data-rev>
+            <a href="img/production/dtf-32-1600.webp" data-cap="Участок DTF-печати"><img src="img/production/dtf-32-800.webp" srcset="img/production/dtf-32-800.webp 800w, img/production/dtf-32-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Участок DTF-печати: принтеры и стеллажи с плёнкой"></a>
+            <a href="img/production/dtf-31-1600.webp" data-cap="Перенос принта прессом"><img src="img/production/dtf-31-800.webp" srcset="img/production/dtf-31-800.webp 800w, img/production/dtf-31-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1062" loading="lazy" decoding="async" alt="Шопер с зелёным принтом снимают с термопресса"></a>
+            <a href="img/production/dtf-34-1600.webp" data-cap="Перенос на детали кроя"><img src="img/production/dtf-34-800.webp" srcset="img/production/dtf-34-800.webp 800w, img/production/dtf-34-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Красные детали кроя с белыми принтами под термопрессом"></a>
+            <a href="img/production/dtf-37-1600.webp" data-cap="Готовые шоперы"><img src="img/production/dtf-37-800.webp" srcset="img/production/dtf-37-800.webp 800w, img/production/dtf-37-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Чёрные шоперы с полноцветными принтами"></a>
+          </div>
+        </div>
+      </div>
+      <div class="dir" data-group>
+        <div class="dir-pic dir-pic-r" data-gallery>
+          <a href="img/production/sub-45-1600.webp" data-cap="Сублимация: рисунок перенесён на полотно"><img src="img/production/sub-45-800.webp" srcset="img/production/sub-45-800.webp 800w, img/production/sub-45-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 52vw" width="800" height="1067" loading="lazy" decoding="async" alt="Полотно с сублимационной печатью по всей ширине выходит из машины" style="object-position: 50% 66%"><span class="dir-tag">Смотреть · 5 фото</span></a>
+        </div>
+        <svg class="dir-cut" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M100 0L0 100" vector-effect="non-scaling-stroke"/></svg>
+        <div class="dir-txt dir-txt-l">
+          <span class="dir-n" data-rev>04</span>
+          <h3 class="hd" data-rev><span class="hd-b">Сублимация</span></h3>
+          <p data-rev>Широкоформатная печать и перенос на ткань в рулоне — рисунок по всей площади.</p>
+          <div class="thumbs" data-gallery data-rev>
+            <a href="img/production/sub-38-1600.webp" data-cap="Широкоформатная печать"><img src="img/production/sub-38-800.webp" srcset="img/production/sub-38-800.webp 800w, img/production/sub-38-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Широкоформатный принтер печатает орнамент"></a>
+            <a href="img/production/sub-42-1600.webp" data-cap="Принтеры для сублимации"><img src="img/production/sub-42-800.webp" srcset="img/production/sub-42-800.webp 800w, img/production/sub-42-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Два широкоформатных принтера в цехе сублимации"></a>
+            <a href="img/production/sub-40-1600.webp" data-cap="Отпечатанное полотно"><img src="img/production/sub-40-800.webp" srcset="img/production/sub-40-800.webp 800w, img/production/sub-40-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Рука на полотне с детальным сублимационным рисунком"></a>
+            <a href="img/production/sub-44-1600.webp" data-cap="Перенос на ткань в рулоне"><img src="img/production/sub-44-800.webp" srcset="img/production/sub-44-800.webp 800w, img/production/sub-44-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Красное полотно с орнаментом выходит из машины переноса"></a>
+          </div>
+        </div>
+      </div>
+      <div class="dir" data-group id="patches">
+        <div class="dir-pic dir-pic-l" data-gallery>
+          <a href="img/production/patch-69-1600.webp" data-cap="Заливка цвета в форму"><img src="img/production/patch-69-800.webp" srcset="img/production/patch-69-800.webp 800w, img/production/patch-69-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 52vw" width="800" height="1067" loading="lazy" decoding="async" alt="Дозатор заливает жёлтый цвет в ячейки формы" style="object-position: 50% 60%"><span class="dir-tag">Смотреть · 4 фото</span></a>
+        </div>
+        <svg class="dir-cut" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M100 0L0 100" vector-effect="non-scaling-stroke"/></svg>
+        <div class="dir-txt dir-txt-r">
+          <span class="dir-n" data-rev>05</span>
+          <h3 class="hd" data-rev><span class="hd-a">Шевроны</span><span class="hd-b">и брелоки</span></h3>
+          <p data-rev>Отливаем в металлической форме: каждый цвет логотипа заливается отдельно. Шеврон затем пришивают к изделию.</p>
+          <div class="thumbs" data-gallery data-rev>
+            <a href="img/production/patch-65-1600.webp" data-cap="Металлическая форма"><img src="img/production/patch-65-800.webp" srcset="img/production/patch-65-800.webp 800w, img/production/patch-65-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="533" loading="lazy" decoding="async" alt="Металлическая форма с гравировкой логотипов для отливки"></a>
+            <a href="img/production/patch-64-1600.webp" data-cap="Готовые шевроны в форме"><img src="img/production/patch-64-800.webp" srcset="img/production/patch-64-800.webp 800w, img/production/patch-64-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Отлитые чёрно-белые шевроны в ячейках формы"></a>
+            <a href="img/production/patch-58-1600.webp" data-cap="Шеврон на куртке"><img src="img/production/patch-58-800.webp" srcset="img/production/patch-58-800.webp 800w, img/production/patch-58-1600.webp 1600w" sizes="(max-width: 900px) 30vw, 9vw" width="800" height="1067" loading="lazy" decoding="async" alt="Литой шеврон, пришитый к тёмной куртке"></a>
+          </div>
+          <a class="more" href="products.html#patches" data-rev>Готовые шевроны и брелоки</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Полный цикл: строчка по шву ============ -->
+    <section class="s s-soft" id="cycle">
+      <div class="s-grid">
+        <div class="col-a">
+          <h2 class="hd" data-rev><span class="hd-a">Все этапы заказа —</span><span class="hd-b">в одном месте</span></h2>
+          <p class="sub" data-rev>Полный цикл</p>
+        </div>
+        <div class="spine"><span>Одна линия</span></div>
+        <div class="col-b">
+          <p data-rev>Меньше подрядчиков, согласований и потерянного времени. Линия заказа не рвётся: от идеи до отгрузки её ведёт одна команда.</p>
+        </div>
+        <ol class="flow">
+          <li data-rev><div class="flow-a"><i>01</i><h3>Идея и модель</h3></div><div class="flow-b"><p>Разрабатываем изделие под задачу: от базовой модели до капсульной коллекции и нестандартного кроя.</p></div></li>
+          <li data-rev><div class="flow-a"><i>02</i><h3>Материалы</h3></div><div class="flow-b"><p>Подбираем ткань и фурнитуру под назначение вещи, цвет бренда и бюджет.</p></div></li>
+          <li data-rev><div class="flow-a"><i>03</i><h3>Пошив</h3></div><div class="flow-b"><p>Собственный швейный цех: образец, затем тираж — небольшой или крупный.</p></div></li>
+          <li data-rev><div class="flow-a"><i>04</i><h3>Нанесение</h3></div><div class="flow-b"><p>DTF-печать, сублимация, шелкография, эмбоссирование и вышивка — у себя, без передачи на сторону.</p></div></li>
+          <li data-rev><div class="flow-a"><i>05</i><h3>Контроль качества</h3></div><div class="flow-b"><p>Проверяем на каждом этапе: ткань, швы, посадку и финальное нанесение.</p></div></li>
+          <li data-rev><div class="flow-a"><i>06</i><h3>Тираж и доставка</h3></div><div class="flow-b"><p>Упаковываем и отгружаем в срок. Доставляем по Казахстану и по миру.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ Частые вопросы ============ -->
+    <section class="s" id="faq">
+      <div class="s-grid">
+        <div class="col-a">
+          <h2 class="hd" data-rev><span class="hd-a">Частые</span><span class="hd-b">вопросы</span></h2>
+          <p class="sub" data-rev>Коротко о главном</p>
+        </div>
+        <div class="spine"><span>Вопросы и ответы</span></div>
+        <div class="col-b">
+          <div class="faq" data-rev>
+            <details><summary>С какими тиражами вы работаете?</summary><p>И с небольшими, и с крупными корпоративными заказами. Точные условия по партии зависят от модели — уточним при расчёте.</p></details>
+            <details><summary>Можно сшить вещь, которой нет в каталоге?</summary><p>Да. Нестандартные модели и индивидуальный дизайн — наша сильная сторона: разработаем изделие и отошьём образец до запуска тиража.</p></details>
+            <details><summary>Вы наносите логотип на готовые изделия?</summary><p>Да, нанесение доступно и на вещи, сшитые у нас, и на готовые изделия. Технологию подберём под материал и тираж.</p></details>
+            <details><summary>Куда доставляете?</summary><p>По Алматы, Астане и всему Казахстану, а также за пределы страны.</p></details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Заявка ============ -->
+    <section class="s s-plate" id="contact" data-dot="7">
+      <div class="s-grid">
+        <div class="col-a">
+          <h2 class="hd hd-plain" data-rev><span class="hd-a">Приезжайте</span><span class="hd-b">на производство</span></h2>
+          <p data-rev>Напишите, когда вам удобно приехать, или расскажите о задаче — менеджер ответит в рабочее время. Адрес: Алматы, мкр. Мамыр, ул. Степная, 6.</p>
+          <a class="more" href="https://2gis.kz/almaty/search/%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C%20%D0%9C%D0%B0%D0%BC%D1%8B%D1%80%2C%20%D0%A1%D1%82%D0%B5%D0%BF%D0%BD%D0%B0%D1%8F%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%2C%206" target="_blank" rel="noopener" data-rev>Как проехать</a>
+        </div>
+        <div class="spine"><span>08 — Контакты</span></div>
+        <div class="col-b">
+          <form class="form" data-lead="Заявка со страницы «Производство»" data-rev>
+            <input name="name" data-label="Имя" placeholder="Имя*" required autocomplete="name" aria-label="Имя">
+            <input name="phone" data-label="Телефон" type="tel" placeholder="Телефон*" required autocomplete="tel" aria-label="Телефон">
+            <textarea name="what" data-label="Что нужно" placeholder="Что вас интересует: изделия, тираж, сроки" rows="2" aria-label="Что нужно"></textarea>
+            <button class="btn btn-fill" type="submit">Отправить в WhatsApp</button>
+            <small data-note>Откроется WhatsApp с готовым текстом заявки.</small>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="s foot">
+    <div class="izum-line" aria-hidden="true"></div>
+    <div class="s-grid">
+      <div class="col-a">
+        <h3 class="foot-h">Заказать</h3>
+        <b class="foot-city">Алматы</b>
+        <p>мкр. Мамыр, ул. Степная, 6<br>Время работы: Пн–Пт, с 9:00 до 18:00<br>Выходные: суббота, воскресенье</p>
+        <p><a href="tel:+77771737475">+7 (777) 173 74 75</a><br><a href="mailto:ceo.manager@izumerch.kz">ceo.manager@izumerch.kz</a></p>
+        <a class="more" href="https://2gis.kz/almaty/search/%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C%20%D0%9C%D0%B0%D0%BC%D1%8B%D1%80%2C%20%D0%A1%D1%82%D0%B5%D0%BF%D0%BD%D0%B0%D1%8F%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%2C%206" target="_blank" rel="noopener">Как проехать</a>
+      </div>
+      <div class="spine"></div>
+      <div class="col-b foot-b">
+        <h3 class="foot-h">Сотрудничество</h3>
+        <div class="foot-cols">
+          <div><b>Брендам одежды</b><p>Производство небольших и средних партий под вашей биркой.</p></div>
+          <div><b>Компаниям</b><p>Одежда и мерч для сотрудников, клиентов и мероприятий.</p></div>
+          <div><b>Агентствам</b><p>Производственный подрядчик под проекты ваших клиентов.</p></div>
+        </div>
+        <div class="foot-soc">
+          <a href="https://wa.me/77771737475" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://www.instagram.com/izum_production" target="_blank" rel="noopener">Instagram · @izum_production</a>
+        </div>
+      </div>
+    </div>
+    <div class="s-grid foot-end">
+      <p class="foot-copy">© 2026 · Izum Design &amp; Production · Алматы</p>
+      <nav class="foot-nav" aria-label="Страницы">
+        <a href="production.html">Производство</a>
+        <a href="wholesale.html">Одежда оптом</a>
+        <a href="products.html">Продукция</a>
+        <a href="constructor.html">Конструктор</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/tone.js?v=1117t"></script>
+  <script src="js/site.js?v=1118c"></script>
+  <script src="js/gallery.js?v=1118c"></script>
+</body>
+</html>

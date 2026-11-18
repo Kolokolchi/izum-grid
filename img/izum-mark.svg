@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 1 101.7 92" fill="none" stroke="#0d0d0d" stroke-width="5.5" stroke-miterlimit="8">
+  <!-- Знак Izum, перерисован по PNG 109×131 (site/img/izum-logo-2x.png): одна толщина штриха, общие штрихи у букв.
+       Для печати и крупных носителей нужен исходник в кривых от заказчика. -->
+  <path d="M27.05 4.5V46.75"/>
+  <path d="M10 90.5V56.75a10 10 0 0 1 10-10h14a10 10 0 0 1 10 10V90.5"/>
+  <path d="M57 7.4H91.83L59.28 47.7"/>
+  <path d="M55.75 90.5V47.7H99.7V90.5"/>
+  <path d="M57.2 47.7L77.72 76.8L98.25 47.7"/>
+  <g fill="#0d0d0d" stroke="none">
+    <circle cx="21.8" cy="57.3" r="1.2"/><circle cx="32.3" cy="57.3" r="1.2"/>
+    <circle cx="21.8" cy="67.2" r="1.2"/><circle cx="32.3" cy="67.2" r="1.2"/>
+    <circle cx="21.8" cy="77.2" r="1.2"/><circle cx="32.3" cy="77.2" r="1.2"/>
+    <circle cx="21.8" cy="87.2" r="1.2"/><circle cx="32.3" cy="87.2" r="1.2"/>
+  </g>
+</svg>

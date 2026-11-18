@@ -1,0 +1,15 @@
+# Локальные настройки Claude Code (launch.json — общий, он в репозитории)
+.claude/settings.local.json
+.claude/worktrees/
+
+# Секреты и окружение
+.env*
+!.env.example
+
+# Системный и рабочий мусор
+Thumbs.db
+desktop.ini
+.DS_Store
+*.log
+__pycache__/
+node_modules/
