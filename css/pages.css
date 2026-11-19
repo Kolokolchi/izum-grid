@@ -146,9 +146,7 @@ a.card:hover h3 { background-size: 100% 2px; }
 .thumbs a:hover img, .thumbs a:focus-visible img { filter: none; transform: scale(1.07); }
 .thumbs + .more { margin-top: 26px; }
 
-/* ---------- Заявка: дополнительные поля ---------- */
-.form select { width: 100%; min-width: 0; padding: 16px 18px; border: 2px solid currentColor; border-radius: 0; background: rgba(255, 255, 255, .22); color: inherit; font: inherit; appearance: none; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%; background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; }
-.form select option { color: #0d0d0d; background: #fff; }
+/* ---------- Контакты на плашке ---------- */
 .s-plate .sub { color: inherit; opacity: .7; }
 .s-plate .more { margin-top: 18px; }
 

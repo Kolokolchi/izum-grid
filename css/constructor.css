@@ -3,7 +3,9 @@
    поэтому вёрстку можно раскладывать как угодно. Раскладка — тот же знак, что на обложках страниц:
    · стойка I входит в арку U, в арке стоит изделие в 3D (как вещь на первом экране главной);
    · просвет между буквами («шов») — переключатель вида: перед, спинка, рукава;
-   · колонка M — выкройка, под ней настройки в две колонки по оси галочки M.
+   · колонка M — выкройка, под ней настройки: две вкладки («Изделие», «Нанесение») и отправка макета.
+   Внутренних прокруток нет: вкладка рассчитана на высоту экрана, а если ей нужно больше (много слоёв, низкий
+   экран) — секция становится выше и листается страница; арка с изделием, шов и название при этом стоят на месте.
    Цвета — из переменных темы: светлая по умолчанию, тёмная — кнопкой в шве (body[data-theme="dark"]).
    Переменные --mk-flat и --mk-fg-rgb читает скрипт: ими рисуется холст выкройки. */
 
@@ -36,15 +38,19 @@
 .mk [hidden], .mk-picker[hidden] { display: none !important; }
 
 /* ---------- Раскладка: знак ---------- */
-.mk { position: relative; display: grid; grid-template-columns: var(--grid); grid-template-rows: var(--hh) minmax(0, .8fr) minmax(0, 1fr); height: max(100svh, 660px); color: var(--mk-fg); container-type: inline-size; }
+/* --mk-h — высота рабочего поля (экран), --mk-pat — доля выкройки в нём. Настройки занимают остальное. Если вкладке
+   нужно больше (много слоёв), она сначала забирает место у выкройки — до 170px, — и только потом поле становится
+   выше экрана. Поэтому у .mk не height, а min-height, а строки заданы через minmax. */
+.mk { --mk-h: max(100svh, 660px); --mk-pat: .42; position: relative; display: grid; grid-template-columns: var(--grid); grid-template-rows: var(--hh) minmax(170px, 1fr) minmax(calc((var(--mk-h) - var(--hh)) * (1 - var(--mk-pat))), max-content); min-height: var(--mk-h); color: var(--mk-fg); container-type: inline-size; }
 .mk > * { --C: calc(100cqw - 2 * var(--rail)); }
 .mk::before { content: ""; grid-column: 1; grid-row: 1; border-bottom: 1px solid var(--hair); }
 .mk::after { content: ""; grid-column: 3 / -1; grid-row: 1; border-bottom: 1px solid var(--hair); }
 
 /* строка шапки, колонка арки: слева от стойки — где мы, справа — изделие */
-.mk-stem { grid-column: 2; grid-row: 1; justify-self: center; position: relative; z-index: 6; width: 2px; background: var(--mk-fg); transform-origin: top; }
+/* стойка и название занимают всю высоту колонки, но сами высотой в шапку: так они прилипают к верху, когда секция выше экрана */
+.mk-stem { grid-column: 2; grid-row: 1 / 4; justify-self: center; align-self: start; position: sticky; top: 0; z-index: 6; width: 2px; height: var(--hh); background: var(--mk-fg); transform-origin: top; }
 .js .mk-stem { animation: stemIn .8s var(--ease) both; }
-.mk-top { grid-column: 2; grid-row: 1; position: relative; z-index: 5; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+.mk-top { grid-column: 2; grid-row: 1 / 4; align-self: start; position: sticky; top: 0; z-index: 5; height: var(--hh); display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
 .mk-top .crumbs { justify-content: flex-end; padding: 0 clamp(14px, 1.8cqw, 26px) 0 var(--in); text-align: right; }
 .mk-title { padding-left: clamp(14px, 1.8cqw, 26px); min-width: 0; }
 .mk-title .eyebrow { margin: 0 0 4px; font-size: 9px; letter-spacing: .24em; color: var(--mk-mute); }
@@ -62,7 +68,7 @@
 .mk-prods button.on, .mk-prods button.on:hover { background: var(--mk-on); color: var(--mk-on-fg); }
 
 /* U: изделие в арке */
-.mk-stage { grid-column: 2; grid-row: 2 / 4; position: relative; z-index: 2; margin: 0 -1px; overflow: hidden; background: var(--mk-corner, transparent); touch-action: none; }
+.mk-stage { grid-column: 2; grid-row: 2 / 4; align-self: start; position: sticky; top: var(--hh); z-index: 2; height: calc(var(--mk-h) - var(--hh)); margin: 0 -1px; overflow: hidden; background: var(--mk-corner, transparent); touch-action: none; }
 .mk-stage::before { content: ""; position: absolute; inset: 0; border: 2px solid var(--mk-fg); border-bottom: 0; border-radius: calc(var(--C) * .1049) calc(var(--C) * .1049) 0 0; background: var(--mk-stage); pointer-events: none; }
 .mk-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; }
 .mk-stage canvas.drag { cursor: grabbing; }
@@ -75,7 +81,7 @@
 .mk-load { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-weight: 500; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; white-space: nowrap; color: var(--mk-mute); }
 
 /* шов: вид изделия и тема */
-.mk-seam { grid-column: 3; grid-row: 2 / 4; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; padding: 14px 0 16px; }
+.mk-seam { grid-column: 3; grid-row: 2 / 4; align-self: start; position: sticky; top: var(--hh); z-index: 2; height: calc(var(--mk-h) - var(--hh)); display: flex; flex-direction: column; align-items: center; padding: 14px 0 16px; }
 .mk-views { display: flex; flex-direction: column; align-items: center; gap: 2px; margin: auto 0; }
 .mk-views button { writing-mode: vertical-rl; transform: rotate(180deg); padding: 14px 9px; font-weight: 500; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; white-space: nowrap; color: var(--mk-mute); transition: color .2s, box-shadow .2s; }
 .mk-views button:hover { color: var(--mk-hi); }
@@ -100,17 +106,62 @@
 .mk-flat { position: absolute; inset: 0; touch-action: none; }
 .mk-flat canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
-.mk-panel { grid-column: 4; grid-row: 3; position: relative; z-index: 2; min-width: 0; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--mk-panel); scrollbar-width: thin; scrollbar-color: var(--mk-scroll) transparent; }
-.mk-col { min-width: 0; padding: 0 clamp(14px, 1.5vw, 24px) 12px; }
-.mk-col + .mk-col { border-left: 1px solid var(--mk-line); }
-.mk-col::before { content: attr(data-t); position: sticky; top: 0; z-index: 3; display: block; padding: 14px 0 12px; background: var(--mk-panel); border-bottom: 2px solid var(--mk-fg); font-weight: 500; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--mk-mute); }
-.mk-group { padding: 18px 0 20px; border-bottom: 1px solid var(--mk-line); }
-.mk-group:last-child { border-bottom: 0; }
-.mk-group h2 { margin-bottom: 14px; font-weight: 700; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
-.mk-group h2 b { margin-left: 6px; font-weight: 500; color: var(--mk-mute); }
+/* настройки: полоса вкладок с отправкой макета и одна вкладка под ней; прокрутки нет */
+.mk-panel { grid-column: 4; grid-row: 3; position: relative; z-index: 2; min-width: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--mk-panel); }
+.mk-bar { position: relative; z-index: 3; display: flex; align-items: stretch; justify-content: space-between; gap: 10px; min-height: 46px; border-bottom: 2px solid var(--mk-fg); }
+.mk-ptabs { display: flex; min-width: 0; }
+.mk-ptabs button { padding: 0 clamp(14px, 1.6vw, 26px); border-right: 1px solid var(--mk-line); font-weight: 500; font-size: 10px; letter-spacing: .26em; text-transform: uppercase; white-space: nowrap; color: var(--mk-mute); transition: background .2s, color .2s; }
+.mk-ptabs button:hover { color: var(--mk-hi); }
+.mk-ptabs button.on { font-weight: 700; background: var(--mk-fg); color: var(--mk-bg); }
+.mk-acts { display: flex; align-items: stretch; min-width: 0; }
+.mk-acts .mk-tip { align-self: center; margin-right: 12px; }
+.mk-act { padding: 0 clamp(12px, 1.3vw, 20px); border-left: 1px solid var(--mk-line); font-weight: 700; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; white-space: nowrap; transition: background .2s, color .2s; }
+.mk-act:hover { background: var(--mk-fg); color: var(--mk-bg); }
+.mk-act-go { border-left: 0; background: var(--mk-on); color: var(--mk-on-fg); }
+.mk-pane { min-width: 0; }
+.mk-pane > * { min-width: 0; }
+.mk-panel .mk-pane > * { padding-inline: clamp(14px, 1.5vw, 22px); }
+.mk-group { padding: 14px 0 16px; border-bottom: 1px solid var(--mk-line); }
+.mk-group:last-child, .mk-main .mk-group { border-bottom: 0; }
+.mk-group h2 { display: flex; align-items: center; gap: 7px; min-height: 18px; margin-bottom: 10px; font-weight: 700; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+.mk-group h2 b { font-weight: 500; color: var(--mk-mute); }
+.mk-group h2 .mk-tip { margin-left: auto; }
 .mk-note { font-size: 11px; line-height: 1.55; color: var(--mk-mute); }
-.mk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+.mk-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
 .mk-head h2 { margin: 0; }
+.mk-empty { max-width: 36ch; padding: 16px 0; font-size: 12px; line-height: 1.65; color: var(--mk-mute); }
+.mk-main:has(#props:not([hidden]), #multi:not([hidden])) .mk-empty { display: none; }
+.mk-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; }
+.mk-cap { margin-bottom: 8px; font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mk-mute); }
+.mk-add .mk-cap { align-self: center; margin: 0 0 0 auto; }
+.mk-minis { display: flex; gap: 14px; }
+
+/* на десктопе видна одна вкладка; на телефоне (ниже) — обе подряд */
+@media (min-width: 901px) {
+  .mk-pane { display: none; }
+  .mk-panel[data-pane="item"] #paneItem, .mk-panel[data-pane="print"] #panePrint { display: grid; }
+  #paneItem { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  #panePrint { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
+  .mk-pane > * + * { border-left: 1px solid var(--mk-line); }
+  .mk-pane > [hidden] + * { border-left: 0; }
+  .mk-pane > .mk-group { border-bottom: 0; }
+  .mk-panel[data-pane="edit"] #panePrint { display: grid; }   /* «Настройки» — вкладка узкого экрана; на широком это та же «Нанесение» */
+  .mk-nar { display: none; }
+  /* семь слоёв и больше — строки в одну линию */
+  .mk-layers:has(li:nth-child(7)) { gap: 3px; }
+  .mk-layers:has(li:nth-child(7)) li { grid-template-columns: 20px minmax(0, 1fr) auto; padding: 2px 4px; }
+  .mk-layers:has(li:nth-child(7)) .lt { width: 20px; height: 20px; font-size: 8px; }
+  .mk-layers:has(li:nth-child(7)) .ln small { display: none; }
+  .mk-layers:has(li:nth-child(7)) .lb button { height: 22px; }
+}
+
+/* подсказка «?»: длинные пояснения не занимают место в панели, открываются по наведению, фокусу или касанию */
+.mk-tip { position: relative; flex: none; display: inline-grid; place-items: center; width: 17px; height: 17px; border: 1px solid var(--mk-edge); border-radius: 50%; font-weight: 700; font-size: 9px; line-height: 1; letter-spacing: 0; color: var(--mk-mute); cursor: help; }
+.mk-tip:hover, .mk-tip:focus { border-color: var(--mk-fg); color: var(--mk-fg); outline: 0; }
+.mk-tipbox { position: absolute; left: -10px; bottom: calc(100% + 9px); z-index: 12; display: none; width: 268px; max-width: 74cqw; padding: 11px 13px; border: 2px solid var(--mk-fg); background: var(--mk-bg); box-shadow: 0 14px 34px var(--mk-shadow); font-weight: 400; font-size: 11px; line-height: 1.55; letter-spacing: 0; text-transform: none; text-align: left; white-space: normal; color: var(--mk-fg); cursor: default; }
+.mk-tip-r .mk-tipbox, .mk-group h2 .mk-tipbox { left: auto; right: -10px; }
+.mk-tip:hover .mk-tipbox, .mk-tip:focus .mk-tipbox { display: block; }
+.mk-tipbox:empty { display: none !important; }
 .mk-mini { padding-bottom: 2px; border-bottom: 1px solid currentColor; font-weight: 700; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--mk-mute); }
 .mk-mini:hover { color: var(--mk-hi); }
 
@@ -120,10 +171,9 @@
 .mk-btn:hover { background: transparent; color: var(--mk-fg); }
 .mk-ghost { border-width: 1px; border-color: var(--mk-edge); background: transparent; color: var(--mk-fg); }
 .mk-ghost:hover { border-color: var(--mk-fg); background: var(--mk-fg); color: var(--mk-bg); }
-.mk-send { display: grid; gap: 10px; }
-.mk-send .btn { width: 100%; border-color: var(--mk-fg); background: var(--mk-on); color: var(--mk-on-fg); }
-.mk-send .btn:hover { background: var(--mk-fg); color: var(--mk-bg); }
-.mk-send .mk-btn { width: 100%; }
+.mk-panel .mk-btn { min-height: 34px; padding: 0 12px; letter-spacing: .14em; }
+.mk-new { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.mk-new .mk-btn::before { content: "+"; margin-right: 7px; font-weight: 500; font-size: 14px; line-height: 1; letter-spacing: 0; }
 
 /* переключатели-сегменты */
 .mk-seg { display: flex; border: 1px solid var(--mk-edge); }
@@ -137,7 +187,7 @@
 .mk-colors button { width: 24px; height: 24px; border: 2px solid var(--mk-fg); border-radius: 50%; background: var(--c); transition: transform .2s var(--ease), box-shadow .2s; }
 .mk-colors button:hover { transform: scale(1.16); }
 .mk-colors button.on { box-shadow: 0 0 0 3px var(--mk-panel), 0 0 0 5px var(--mk-fg); }
-.mk-inks { grid-column: 2 / 4; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.mk-inks { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 5px; }
 .mk-inks button { height: 24px; min-width: 24px; padding: 0 9px; border: 1px solid var(--mk-edge); border-radius: 12px; background: var(--c, transparent); font-size: 10px; }
 .mk-inks button[style] { padding: 0; border: 2px solid var(--mk-fg); border-radius: 50%; }
 .mk-inks button.on { box-shadow: 0 0 0 3px var(--mk-panel), 0 0 0 5px var(--mk-fg); }
@@ -145,7 +195,7 @@
 .mk-colors .own, .mk-inks .own { padding: 0; border: 0; border-radius: 50%; background: conic-gradient(#ff3b30, #ffcc00, #34c759, #32ade6, #5856d6, #ff2d92, #ff3b30); }
 .mk-colors .own.set, .mk-inks .own.set { background: radial-gradient(circle, var(--c) 0 54%, transparent 57%), conic-gradient(#ff3b30, #ffcc00, #34c759, #32ade6, #5856d6, #ff2d92, #ff3b30); }
 
-.mk-switch { display: flex; align-items: center; gap: 10px; width: fit-content; margin: 16px 0 8px; font-weight: 700; font-size: 11px; letter-spacing: .06em; cursor: pointer; }
+.mk-switch { display: flex; align-items: center; gap: 10px; width: fit-content; font-weight: 700; font-size: 11px; letter-spacing: .06em; cursor: pointer; }
 .mk-switch input { appearance: none; flex: none; position: relative; width: 38px; height: 20px; margin: 0; border: 2px solid var(--mk-fg); border-radius: 0; background: transparent; cursor: pointer; transition: background .2s; }
 .mk-switch input::after { content: ""; position: absolute; left: 2px; top: 2px; width: 12px; height: 12px; background: var(--mk-fg); transition: transform .2s var(--ease); }
 .mk-switch input:checked { background: var(--mk-on); }
@@ -153,12 +203,13 @@
 .mk-switch input:focus-visible { outline: 2px solid var(--mk-fg); outline-offset: 3px; }
 
 /* загрузка изображений */
-.mk-drop { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px dashed var(--mk-edge); cursor: pointer; transition: border-color .2s, background .2s; }
+.mk-drop { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 38px; padding: 0 12px; border: 1px dashed var(--mk-edge); cursor: pointer; transition: border-color .2s, background .2s; }
 .mk-drop:hover { border-color: var(--mk-fg); background: var(--mk-soft); }
-.mk-drop svg { flex: none; width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
-.mk-drop span { font-size: 11px; line-height: 1.45; color: var(--mk-mute); }
-.mk-drop span b { display: block; font-weight: 700; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--mk-fg); }
-.mk-lib { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+.mk-drop svg { flex: none; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+.mk-drop span b { font-weight: 700; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--mk-fg); }
+.mk-libbox { margin-top: 12px; }
+.mk-libbox:has(.mk-lib:empty) { display: none; }
+.mk-lib { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 .mk-lib:empty { display: none; }
 .mk-thumb { position: relative; aspect-ratio: 1; border: 1px solid var(--mk-line); background: var(--mk-check) 0 0 / 14px 14px; cursor: grab; transition: border-color .2s; }
 .mk-thumb:hover { border-color: var(--mk-fg); }
@@ -173,35 +224,34 @@
 .mk.dropping .mk-dropmsg { display: flex; }
 
 /* свойства нанесения */
-.mk-row { display: grid; grid-template-columns: 70px minmax(0, 1fr) auto; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 12px; }
-.mk-row input[type="text"], .mk-row select { grid-column: 2 / 4; width: 100%; min-width: 0; padding: 10px 12px; border: 0; border-radius: 0; background: var(--mk-field); color: var(--mk-fg); font: inherit; }
-.mk-row input[type="range"] { width: 100%; min-width: 0; accent-color: var(--mk-fg); }
-.mk-row output { min-width: 54px; text-align: right; font-variant-numeric: tabular-nums; color: var(--mk-mute); }
-.mk-wide { grid-template-columns: 1fr; gap: 8px; }
-.mk-wide small { font-size: 10.5px; line-height: 1.5; color: var(--mk-mute); }
-#pModeNote { min-height: 3em; }
-#pInkAuto { margin: -2px 0 12px; }
+/* строки в две колонки: подпись над полем, широкие строки — на всю ширину */
+.mk-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 14px; }
+.mk-row { display: grid; align-content: start; gap: 5px; min-width: 0; font-size: 12px; }
+.mk-row > span:first-child { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 17px; font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mk-mute); }
+.mk-row input[type="text"], .mk-row select { width: 100%; min-width: 0; height: 32px; padding: 0 10px; border: 0; border-radius: 0; background: var(--mk-field); color: var(--mk-fg); font: inherit; }
+.mk-row input[type="range"] { width: 100%; min-width: 0; height: 20px; margin: 0; accent-color: var(--mk-fg); }
+.mk-row output { font-weight: 700; letter-spacing: .04em; text-transform: none; font-variant-numeric: tabular-nums; color: var(--mk-fg); }
+.mk-wide { grid-column: 1 / -1; }
 .mk-align { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
 .mk-align button { display: grid; place-items: center; height: 40px; border: 1px solid var(--mk-edge-soft); transition: background .15s, color .15s; }
 .mk-align button:hover { background: var(--mk-on); color: var(--mk-on-fg); }
 .mk-align button:disabled { opacity: .25; pointer-events: none; }
 .mk-align svg { width: 20px; height: 20px; }
-#multi .mk-note { margin-bottom: 12px; }
-.mk-warn { margin: 0 0 12px; padding: 10px 12px; background: var(--mk-warn-bg); color: var(--mk-warn-fg); }
+.mk-warn { padding: 8px 10px; background: var(--mk-warn-bg); color: var(--mk-warn-fg); }
 .mk-warn button { padding: 2px 8px; background: #ffd400; color: #0d0d0d; font-weight: 700; }
 
 /* слои */
-.mk-layers { list-style: none; display: grid; gap: 6px; user-select: none; }
-.mk-layers li { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px; border: 1px solid var(--mk-line); background: var(--mk-card); font-size: 12px; cursor: grab; }
+.mk-layers { list-style: none; display: grid; gap: 4px; user-select: none; }
+.mk-layers li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 3px 4px; border: 1px solid var(--mk-line); background: var(--mk-card); font-size: 12px; cursor: grab; }
 .mk-layers li.on { border-color: var(--mk-fg); box-shadow: inset 3px 0 0 var(--mk-fg); }
-.mk-layers .lt { display: grid; place-items: center; width: 32px; height: 32px; overflow: hidden; background: var(--mk-check) 0 0 / 10px 10px; font-weight: 900; font-size: 11px; touch-action: none; }
+.mk-layers .lt { display: grid; place-items: center; width: 26px; height: 26px; overflow: hidden; background: var(--mk-check) 0 0 / 10px 10px; font-weight: 900; font-size: 10px; touch-action: none; }
 .mk-layers .lt img { width: 100%; height: 100%; object-fit: contain; }
-.mk-layers .ln b, .mk-layers .ln small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mk-layers .ln b { font-weight: 700; }
-.mk-layers .ln small { margin-top: 2px; font-size: 10px; font-variant-numeric: tabular-nums; color: var(--mk-mute); }
+.mk-layers .ln b, .mk-layers .ln small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.25; }
+.mk-layers .ln b { font-weight: 700; font-size: 11.5px; }
+.mk-layers .ln small { font-size: 9.5px; font-variant-numeric: tabular-nums; color: var(--mk-mute); }
 .mk-layers li.off .lt, .mk-layers li.off .ln { opacity: .35; }
 .mk-layers .lb { display: flex; }
-.mk-layers .lb button { display: grid; place-items: center; width: 25px; height: 25px; opacity: .6; transition: opacity .15s, background .15s; }
+.mk-layers .lb button { display: grid; place-items: center; width: 23px; height: 25px; opacity: .6; transition: opacity .15s, background .15s; }
 .mk-layers .lb button:hover { opacity: 1; background: var(--mk-soft2); }
 .mk-layers .lb button[data-act="del"]:hover { background: #e3262d; color: #fff; }
 .mk-layers .lb button:disabled { opacity: .16; pointer-events: none; }
@@ -212,15 +262,17 @@
 .mk-layers li.lift { position: relative; z-index: 2; transition: none; border-color: var(--mk-fg); box-shadow: 0 10px 26px var(--mk-shadow); }
 
 /* размерный ряд и табель мер */
-.mk-chart { display: grid; gap: 6px; margin: 14px 0 0; font-size: 11.5px; }
-.mk-chart div { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding-bottom: 5px; border-bottom: 1px solid var(--mk-line); }
+.mk-chart { display: grid; gap: 4px; margin: 12px 0 0; font-size: 11.5px; }
+.mk-chart div { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding-bottom: 4px; border-bottom: 1px solid var(--mk-line); }
 .mk-chart dt { color: var(--mk-mute); }
 .mk-chart dd { white-space: nowrap; font-weight: 700; font-variant-numeric: tabular-nums; }
-.mk-more { margin: 10px 0 14px; }
-.mk-more summary { width: max-content; padding-bottom: 2px; border-bottom: 1px solid currentColor; list-style: none; cursor: pointer; font-weight: 700; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--mk-mute); }
+#sizeBox .mk-add { margin-top: 12px; }
+/* «Все мерки» открываются поверх панели, вверх от кнопки — высота панели не меняется */
+.mk-more { position: relative; }
+.mk-more summary { list-style: none; }
 .mk-more summary::-webkit-details-marker { display: none; }
-.mk-more summary:hover { color: var(--mk-hi); }
-#sizeBox .mk-add { margin-bottom: 12px; }
+.mk-more[open] summary { border-color: var(--mk-fg); background: var(--mk-fg); color: var(--mk-bg); }
+.mk-more > dl { position: absolute; left: 0; bottom: calc(100% + 8px); z-index: 12; width: 268px; max-width: 74cqw; margin: 0; padding: 12px 14px; border: 2px solid var(--mk-fg); background: var(--mk-bg); box-shadow: 0 14px 34px var(--mk-shadow); }
 
 /* панель выбранного нанесения: поверх сцены и поверх выкройки */
 .mk-tools svg, .mk-hist svg, .mk-align svg, .mk-layers .lb svg, .mk-thumb button svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -259,13 +311,41 @@
 .mk-page[data-theme="dark"] .mk-top .crumbs, .mk-page[data-theme="dark"] .mk-top .crumbs a::after { color: var(--mk-mute); }
 
 /* ---------- Низкие и узкие экраны ---------- */
+@media (min-width: 901px) and (max-height: 760px) {
+  .mk { --mk-pat: .36; }   /* низкий экран: выкройке меньше, настройкам больше */
+}
+@media (min-width: 901px) and (max-height: 700px) {
+  .mk { --mk-pat: .34; }
+  .mk-bar { min-height: 42px; }
+  .mk-group { padding: 10px 0 12px; }
+  .mk-group h2, .mk-head { margin-bottom: 8px; }
+  .mk-rows { row-gap: 6px; }
+  .mk-row { gap: 3px; }
+  .mk-row input[type="text"], .mk-row select { height: 28px; }
+  .mk-chart { margin-top: 9px; }
+  #sizeBox .mk-add { margin-top: 9px; }
+  .mk-line { margin-top: 12px; }
+}
 @media (min-width: 901px) and (max-height: 720px) {
   .mk-hint { display: none; }
   #tools3d { bottom: 22px; }
 }
+@media (min-width: 901px) and (max-width: 1240px) and (min-height: 761px) {
+  .mk { --mk-pat: .38; }   /* в одну колонку «Изделию» нужно чуть больше высоты */
+}
 @media (min-width: 901px) and (max-width: 1240px) {
-  .mk-panel { grid-template-columns: minmax(0, 1fr); align-content: start; }
-  .mk-col + .mk-col { border-left: 0; }
+  /* узкая колонка M: в одну колонку, а настройки выбранного нанесения — отдельной третьей вкладкой */
+  #paneItem, #panePrint { grid-template-columns: minmax(0, 1fr); align-content: start; }
+  .mk-pane > * + * { border-left: 0; border-top: 1px solid var(--mk-line); }
+  .mk-pane > [hidden] + * { border-top: 0; }
+  .mk-nar { display: block; }
+  .mk-wid { display: none; }
+  .mk-panel[data-pane="print"] .mk-main, .mk-panel[data-pane="edit"] .mk-side { display: none; }
+  .mk-panel[data-pane="edit"] .mk-main { border-top: 0; }
+  .mk-bar { gap: 0; }
+  .mk-ptabs button { padding: 0 10px; letter-spacing: .12em; }
+  .mk-act { padding: 0 10px; letter-spacing: .1em; }
+  .mk-acts .mk-tip { margin-right: 8px; }
   .mk-top .crumbs { display: none; }
   .mk-top { grid-template-columns: 1fr; }
   .mk-title { padding: 0 var(--in) 0 calc(50% + 16px); }
@@ -283,9 +363,11 @@
 /* ---------- Телефон и планшет: всё в одну колонку ---------- */
 @media (max-width: 900px) {
   /* порядок сверху вниз: название → изделие → вид → вкладки выкройки → выкройка → настройки */
-  .mk { display: flex; flex-direction: column; height: auto; padding-top: var(--hh); }
+  .mk { display: flex; flex-direction: column; min-height: 0; padding-top: var(--hh); }
   .mk-top { order: 1; } .mk-stage { order: 2; flex: none; } .mk-seam { order: 3; } .mk-tabrow { order: 4; } .mk-pattern { order: 5; flex: none; } .mk-panel { order: 6; }
   .mk::before, .mk::after, .mk-stem { display: none; }
+  .mk-top, .mk-stage, .mk-seam { position: relative; top: auto; align-self: stretch; }
+  .mk-top, .mk-seam { height: auto; }
   .mk-top { grid-template-columns: 1fr; gap: 10px; padding: 22px var(--rail) 20px; }
   .mk-top .crumbs { justify-content: flex-start; padding: 0; text-align: left; }
   .mk-title { padding: 0; }
@@ -304,9 +386,21 @@
   .mk-theme { width: 46px; height: 46px; border-width: 0 0 0 1px; }
   .mk-tabrow { min-height: 58px; padding-left: var(--rail); margin-top: 26px; border-top: 1px solid var(--mk-line); border-bottom: 1px solid var(--mk-line); }
   .mk-pattern { height: 58svh; min-height: 340px; }
-  .mk-panel { display: block; overflow: visible; }
-  .mk-col { padding: 0 var(--rail) 12px; }
-  .mk-col + .mk-col { border-left: 0; }
-  .mk-col::before { position: static; }
+  /* обе вкладки идут подряд под своими заголовками, отправка макета — в конце */
+  .mk-panel { display: flex; flex-direction: column; }
+  .mk-ptabs { display: none; }
+  .mk-bar { order: 9; margin: 14px var(--rail) 34px; min-height: 52px; border: 2px solid var(--mk-fg); }
+  .mk-acts { flex: 1; }
+  .mk-acts .mk-tip { margin: 0 14px; }
+  .mk-act-go { flex: 1; }
+  .mk-pane::before { content: attr(data-t); display: block; margin: 0 var(--rail); padding: 22px 0 12px; border-bottom: 2px solid var(--mk-fg); font-weight: 500; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--mk-mute); }
+  .mk-panel .mk-pane > * { padding-inline: var(--rail); }
+  .mk-group { padding: 18px 0 20px; }
+  .mk-pane > .mk-group + .mk-group { border-top: 1px solid var(--mk-line); }
+  .mk-pane > .mk-group { border-bottom: 0; }
+  .mk-side .mk-group:last-child { border-bottom: 1px solid var(--mk-line); }
+  .mk-row input[type="text"], .mk-row select { height: 40px; }
+  .mk-panel .mk-btn { min-height: 44px; }
+  .mk-tipbox, .mk-more > dl { max-width: calc(100vw - 2 * var(--rail) - 8px); }
   .mk-dropmsg { inset: calc(var(--hh) + 8px) 8px 8px; }
 }

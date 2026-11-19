@@ -298,13 +298,17 @@ html.js:not(.rev-on) .hero-grid * { animation: heroLate .5s 3s forwards; }
 .s-plate { border-top: 0; background: var(--plate); color: var(--on-plate); transition: background .5s, color .5s; }
 .s-plate p { color: inherit; opacity: .86; }
 .s-plate .spine span { color: inherit; opacity: .7; }
-.form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.form input, .form textarea { width: 100%; min-width: 0; padding: 16px 18px; border: 2px solid currentColor; border-radius: 0; background: rgba(255, 255, 255, .22); color: inherit; font: inherit; }
-.form input::placeholder, .form textarea::placeholder { color: inherit; opacity: .62; }
-.form textarea { grid-column: 1 / -1; min-height: 92px; resize: vertical; }
-.form .btn { grid-column: 1 / -1; justify-self: start; border-color: var(--ink); }
-.form .btn:hover { background: #fff; color: var(--ink); border-color: #fff; }
-.form small { grid-column: 1 / -1; font-size: 12px; opacity: .78; }
+/* Связь без полей: три строки-ссылки, каждая — одно нажатие. Подпись тонкая, значение жирное — как заголовки. */
+.reach { display: grid; align-content: center; height: 100%; }
+.reach a { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: clamp(16px, 1.7vw, 26px) clamp(16px, 1.8vw, 28px); border-top: 2px solid currentColor; text-decoration: none; text-transform: uppercase; transition: background .3s, color .3s; }
+.reach a:last-child { border-bottom: 2px solid currentColor; }
+.reach span { display: grid; gap: 5px; min-width: 0; }
+.reach small { font-weight: 300; font-size: 11px; line-height: 1.3; letter-spacing: .24em; }
+.reach b { font-weight: 700; font-size: clamp(18px, 2.1vw, 32px); line-height: 1.1; letter-spacing: .02em; overflow-wrap: anywhere; }
+.reach svg { width: clamp(26px, 2.4vw, 38px); height: auto; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; transition: transform .45s var(--ease); }
+.reach a:hover svg { transform: translateX(8px); }
+.reach a:first-child, .reach a:hover { background: var(--on-plate); color: var(--plate); }
+.reach a:first-child:hover { background: transparent; color: inherit; }
 
 /* Подвал */
 .foot { border-top: 0; background: var(--paper); }
@@ -344,7 +348,6 @@ html.js:not(.rev-on) [data-rev] { animation: revLate .5s 3s forwards; }
 @media (min-width: 901px) and (max-width: 1180px) {
   .rail-cta { font-size: 10px; letter-spacing: .14em; }
   .foot-cols { grid-template-columns: 1fr; }
-  .form { grid-template-columns: 1fr; }
 }
 
 /* ---------- Телефон и планшет: одна колонка — колонка арки ---------- */
@@ -420,8 +423,9 @@ html.js:not(.rev-on) [data-rev] { animation: revLate .5s 3s forwards; }
   .geo .big { font-size: 19px; }
   .geo .cap { font-size: 28px; }
   .geo .out { font-size: 15px; }
-  .form { grid-template-columns: 1fr; padding-bottom: var(--pad); }
-  .form .btn { width: 100%; }
+  .reach { height: auto; }
+  .reach a { padding: 20px 16px; }
+  .reach b { font-size: clamp(19px, 5.6vw, 28px); }
   .foot-cols { grid-template-columns: 1fr; }
   .foot .col-b { padding-bottom: 40px; }
   .foot-copy { padding: 20px 0 6px; }

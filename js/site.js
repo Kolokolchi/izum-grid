@@ -1,4 +1,4 @@
-// Izum — сайт на сетке знака. Общий скрипт всех страниц: меню, восемь точек — восемь цветов, появление блоков, заявка.
+// Izum — сайт на сетке знака. Общий скрипт всех страниц: меню, восемь точек — восемь цветов, появление блоков.
 // Только на главной: линии знака на первом экране, вещь в арке (оборот 360°), смена фото цехов, арки цехов, схема доставки.
 // Каждый блок сам проверяет, есть ли на странице его элементы.
 (() => {
@@ -7,7 +7,6 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const root = document.documentElement;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const WHATSAPP = "77771737475";
 
   // Пропорции, снятые со знака (доли ширины и высоты знака).
   const LOGO = { arch: 0.4155, stem: 0.208, m0: 0.4806, shoulder: 0.2525, zStart: 0.5226, zTop: 0.8885, zFoot: 0.5465, vX: 0.4995, vY: 0.68 };
@@ -407,24 +406,4 @@
   }
   addEventListener("scroll", () => { if (!spyRaf) spyRaf = requestAnimationFrame(spy); }, { passive: true });
   spy();
-
-  // ---------- Заявка. Когда появится серверный приём, задать window.IZUM_LEAD_ENDPOINT. ----------
-  $$("form[data-lead]").forEach((form) => {
-    form.addEventListener("submit", async (ev) => {
-      ev.preventDefault();
-      const f = new FormData(form), note = $("[data-note]", form);
-      if (window.IZUM_LEAD_ENDPOINT) {
-        f.append("topic", form.dataset.lead);
-        try {
-          const r = await fetch(window.IZUM_LEAD_ENDPOINT, { method: "POST", body: f });
-          if (!r.ok) throw new Error(r.status);
-          if (note) note.textContent = "Заявка отправлена. Менеджер свяжется с вами в рабочее время.";
-        } catch (e) { if (note) note.textContent = "Не получилось отправить заявку. Напишите нам в WhatsApp: +7 (777) 173 74 75."; }
-        return;
-      }
-      const text = [`Здравствуйте! ${form.dataset.lead}.`];
-      $$("[name]", form).forEach((el) => { const v = (f.get(el.name) || "").toString().trim(); if (v) text.push(`${el.dataset.label || el.name}: ${v}`); });
-      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text.join("\n"))}`, "_blank", "noopener");
-    });
-  });
 })();
