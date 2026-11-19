@@ -130,8 +130,20 @@
 .mk-note { font-size: 11px; line-height: 1.55; color: var(--mk-mute); }
 .mk-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
 .mk-head h2 { margin: 0; }
-.mk-empty { max-width: 36ch; padding: 16px 0; font-size: 12px; line-height: 1.65; color: var(--mk-mute); }
+/* пока нанесение не выбрано, колонка настроек — зона загрузки изображения во всю её высоту */
+.mk-main { display: flex; flex-direction: column; }
+.mk-empty { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 14px 0 16px; }
 .mk-main:has(#props:not([hidden]), #multi:not([hidden])) .mk-empty { display: none; }
+.mk-zone { flex: 1; min-height: 132px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 18px 16px; border: 1px dashed var(--mk-edge); text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+.mk-zone:hover { border-color: var(--mk-fg); background: var(--mk-soft); }
+.mk-zone svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: square; transition: transform .35s var(--ease); }
+.mk-zone:hover svg { transform: translateY(-4px); }
+.mk-zone b { font-weight: 700; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+.mk-zone span { max-width: 32ch; font-size: 11px; line-height: 1.5; color: var(--mk-mute); }
+/* лекала — под цветом ткани; у изделий без размерного ряда не показываются */
+.mk-lek { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--mk-line); }
+.mk-pane:has(#sizeBox[hidden]) .mk-lek { display: none; }
+#paneItem:has(#sizeBox[hidden]) { grid-template-columns: minmax(0, 1fr); }   /* без размерного ряда цвет ткани занимает всю ширину */
 .mk-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; }
 .mk-cap { margin-bottom: 8px; font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mk-mute); }
 .mk-add .mk-cap { align-self: center; margin: 0 0 0 auto; }
@@ -171,7 +183,7 @@
 .mk-ghost { border-width: 1px; border-color: var(--mk-edge); background: transparent; color: var(--mk-fg); }
 .mk-ghost:hover { border-color: var(--mk-fg); background: var(--mk-fg); color: var(--mk-bg); }
 .mk-panel .mk-btn { min-height: 34px; padding: 0 12px; letter-spacing: .14em; }
-.mk-new { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.mk-new { display: grid; grid-template-columns: 38px minmax(0, 1fr) minmax(0, 1fr); gap: 6px; }
 .mk-new .mk-btn::before { content: "+"; margin-right: 7px; font-weight: 500; font-size: 14px; line-height: 1; letter-spacing: 0; }
 
 /* переключатели-сегменты */
@@ -202,10 +214,17 @@
 .mk-switch input:focus-visible { outline: 2px solid var(--mk-fg); outline-offset: 3px; }
 
 /* загрузка изображений */
-.mk-drop { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 38px; padding: 0 12px; border: 1px dashed var(--mk-edge); cursor: pointer; transition: border-color .2s, background .2s; }
+/* три кнопки добавления в одну строку: загрузка — значком (подпись — на широкой колонке и на телефоне) */
+.mk-drop { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 34px; border: 1px dashed var(--mk-edge); cursor: pointer; transition: border-color .2s, background .2s; }
 .mk-drop:hover { border-color: var(--mk-fg); background: var(--mk-soft); }
 .mk-drop svg { flex: none; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+.mk-drop span { display: none; }
 .mk-drop span b { font-weight: 700; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--mk-fg); }
+@media (min-width: 1700px) {
+  .mk-new { grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); }
+  .mk-drop { padding: 0 14px; }
+  .mk-drop span { display: inline; }
+}
 .mk-libbox { margin-top: 12px; }
 .mk-libbox:has(.mk-lib:empty) { display: none; }
 .mk-lib { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
@@ -352,8 +371,7 @@
   .mk-ptabs button { padding: 0 14px; letter-spacing: .2em; }
   .mk-act { padding: 0 12px; letter-spacing: .14em; }
   .mk-add { gap: 6px; }
-  #sizeBox .mk-btn { padding: 0 7px; letter-spacing: .06em; }
-  .mk-add .mk-cap { letter-spacing: .1em; }
+  #paneItem .mk-btn { padding: 0 7px; letter-spacing: .06em; }
   .mk-line { flex-wrap: wrap; }
   #pMode button, #pPair button { flex: 1 1 auto; padding-inline: 5px; white-space: nowrap; }
   .mk-inks { gap: 6px; }
@@ -373,6 +391,10 @@
 /* Узкая колонка M (окно до 1024px): вкладки те же, но части вкладки идут друг под другом; не хватит высоты — поле растёт */
 @media (min-width: 901px) and (max-width: 1023px) {
   .mk-tools span { display: none; }
+  .mk-new { grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); }
+  .mk-drop { padding: 0 14px; }
+  .mk-drop span { display: inline; }
+  .mk-zone { display: none; }   /* колонка одна: загрузка уже есть подписанной кнопкой над слоями */
   #paneItem, #panePrint { grid-template-columns: minmax(0, 1fr); align-content: start; }
   .mk-pane > * + * { border-left: 0; border-top: 1px solid var(--mk-line); }
   .mk-pane > [hidden] + * { border-top: 0; }
@@ -438,6 +460,10 @@
   .mk-side .mk-group:last-child { border-bottom: 1px solid var(--mk-line); }
   .mk-row input[type="text"], .mk-row select { height: 40px; }
   .mk-panel .mk-btn { min-height: 44px; }
+  .mk-new { grid-template-columns: 1fr 1fr; }
+  .mk-drop { grid-column: 1 / -1; min-height: 44px; }
+  .mk-drop span { display: inline; }
+  .mk-zone { display: none; }
   .mk-tipbox, .mk-more > dl { max-width: calc(100vw - 2 * var(--rail) - 8px); }
   .mk-dropmsg { inset: calc(var(--hh) + 8px) 8px 8px; }
 }

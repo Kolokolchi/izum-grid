@@ -13,7 +13,7 @@
   <link rel="preload" href="fonts/GothamPro-Light.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/site.css?v=1119a">
   <link rel="stylesheet" href="css/pages.css?v=1119a">
-  <link rel="stylesheet" href="css/constructor.css?v=1119b">
+  <link rel="stylesheet" href="css/constructor.css?v=1119c">
   <script type="importmap">{ "imports": { "three": "./js/vendor/three.module.min.js" } }</script>
 </head>
 <body class="mk-page" data-theme="light" data-page="5">
@@ -173,9 +173,6 @@
                 <summary class="mk-btn mk-ghost">Все мерки</summary>
                 <dl class="mk-chart" id="chartMore"></dl>
               </details>
-              <span class="mk-cap">Лекала</span>
-              <a class="mk-btn mk-ghost" id="lekSvg" download title="Лекала в натуральную величину, SVG">SVG</a>
-              <a class="mk-btn mk-ghost" id="lekDxf" download title="Лекала в натуральную величину, DXF">DXF</a>
             </div>
           </div>
 
@@ -186,6 +183,14 @@
               <label class="mk-switch"><input type="checkbox" id="contrast" role="switch" checked><span>Контраст нанесений</span></label>
               <span class="mk-tip mk-tip-r" tabindex="0" role="note" aria-label="О контрасте нанесений">?<span class="mk-tipbox">Нанесение, которое сливается с тканью (жёлтый узор на белой, белый знак на жёлтой), печатается чёрным или белым. Выключите, чтобы оставить свои цвета.</span></span>
             </div>
+            <!-- лекала выбранного размера; у изделий без размерного ряда (скрыт #sizeBox) блок прячется стилями -->
+            <div class="mk-lek">
+              <h2>Лекала <b>1:1</b></h2>
+              <div class="mk-add">
+                <a class="mk-btn mk-ghost" id="lekSvg" download title="Лекала в натуральную величину, SVG">Скачать SVG</a>
+                <a class="mk-btn mk-ghost" id="lekDxf" download title="Лекала в натуральную величину, DXF">Скачать DXF</a>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -194,7 +199,7 @@
           <div class="mk-side">
             <div class="mk-group">
               <div class="mk-new" role="group" aria-label="Добавить нанесение">
-                <label class="mk-drop" id="drop" title="Загрузить изображения или перетащить файлы в это окно">
+                <label class="mk-drop" id="drop" title="Загрузить изображение: логотип, принт или фото. Файл можно перетащить прямо в окно" aria-label="Загрузить изображение">
                   <input type="file" id="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" multiple hidden>
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V5M7 10l5-5 5 5M5 19h14"/></svg>
                   <span><b>Изображение</b></span>
@@ -216,7 +221,15 @@
           </div>
 
           <div class="mk-main">
-            <p class="mk-empty">Выберите нанесение — на изделии, на выкройке или в списке слоёв. Здесь появятся его настройки: размер, деталь, поворот, цвет.</p>
+            <!-- пока ничего не выбрано, колонка настроек занята делом: крупная зона загрузки изображения -->
+            <div class="mk-empty">
+              <label class="mk-zone" for="file">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V5M7 10l5-5 5 5M5 19h14"/></svg>
+                <b>Загрузите изображение</b>
+                <span>Логотип, принт или фото — PNG, JPG, WebP, SVG. Файл можно перетащить прямо в окно.</span>
+              </label>
+              <p class="mk-note">Чтобы настроить нанесение, выберите его на изделии, на выкройке или в списке слоёв — настройки появятся здесь.</p>
+            </div>
 
             <div class="mk-group" id="multi" hidden>
               <h2><span id="multiTitle">Выбрано</span><span class="mk-tip mk-tip-r" tabindex="0" role="note" aria-label="О выравнивании">?<span class="mk-tipbox">Выравнивание считается от детали: на разных деталях «по верху» — на одной высоте, на двух рукавах — на одном расстоянии от низа и от переда.</span></span></h2>
