@@ -40,8 +40,9 @@
 /* ---------- Раскладка: знак ---------- */
 /* --mk-h — высота рабочего поля (экран), --mk-pat — доля выкройки в нём. Настройки занимают остальное. Если вкладке
    нужно больше (много слоёв), она сначала забирает место у выкройки — до 170px, — и только потом поле становится
-   выше экрана. Поэтому у .mk не height, а min-height, а строки заданы через minmax. */
-.mk { --mk-h: max(100svh, 660px); --mk-pat: .42; position: relative; display: grid; grid-template-columns: var(--grid); grid-template-rows: var(--hh) minmax(170px, 1fr) minmax(calc((var(--mk-h) - var(--hh)) * (1 - var(--mk-pat))), max-content); min-height: var(--mk-h); color: var(--mk-fg); container-type: inline-size; }
+   выше экрана. Поэтому у .mk не height, а min-height, а строки заданы через minmax. На высоком окне настройкам
+   по умолчанию не больше 520px — остальное достаётся выкройке. */
+.mk { --mk-h: max(100svh, 660px); --mk-pat: .42; position: relative; display: grid; grid-template-columns: var(--grid); grid-template-rows: var(--hh) minmax(170px, 1fr) minmax(min(calc((var(--mk-h) - var(--hh)) * (1 - var(--mk-pat))), 520px), max-content); min-height: var(--mk-h); color: var(--mk-fg); container-type: inline-size; }
 .mk > * { --C: calc(100cqw - 2 * var(--rail)); }
 .mk::before { content: ""; grid-column: 1; grid-row: 1; border-bottom: 1px solid var(--hair); }
 .mk::after { content: ""; grid-column: 3 / -1; grid-row: 1; border-bottom: 1px solid var(--hair); }
@@ -145,8 +146,6 @@
   .mk-pane > * + * { border-left: 1px solid var(--mk-line); }
   .mk-pane > [hidden] + * { border-left: 0; }
   .mk-pane > .mk-group { border-bottom: 0; }
-  .mk-panel[data-pane="edit"] #panePrint { display: grid; }   /* «Настройки» — вкладка узкого экрана; на широком это та же «Нанесение» */
-  .mk-nar { display: none; }
   /* семь слоёв и больше — строки в одну линию */
   .mk-layers:has(li:nth-child(7)) { gap: 3px; }
   .mk-layers:has(li:nth-child(7)) li { grid-template-columns: 20px minmax(0, 1fr) auto; padding: 2px 4px; }
@@ -330,22 +329,60 @@
   .mk-hint { display: none; }
   #tools3d { bottom: 22px; }
 }
-@media (min-width: 901px) and (max-width: 1240px) and (min-height: 761px) {
-  .mk { --mk-pat: .38; }   /* в одну колонку «Изделию» нужно чуть больше высоты */
+/* Высокое окно (от 1200px): места хватает на всё — вкладок нет, «Изделие» и «Нанесение» видны сразу, друг под другом. */
+@media (min-width: 1024px) and (min-height: 1200px) {
+  .mk-panel { grid-template-rows: auto auto minmax(0, 1fr); }
+  .mk-panel[data-pane] #paneItem, .mk-panel[data-pane] #panePrint { display: grid; }
+  .mk-ptabs { display: none; }
+  .mk-bar::before { content: "Настройки макета"; align-self: center; padding: 0 clamp(14px, 1.5vw, 22px); font-weight: 700; font-size: 10px; letter-spacing: .26em; text-transform: uppercase; white-space: nowrap; }
+  .mk-pane::before { content: attr(data-t); grid-column: 1 / -1; padding: 13px clamp(14px, 1.5vw, 22px) 11px; border-bottom: 1px solid var(--mk-line); font-weight: 500; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--mk-mute); }
+  .mk-panel .mk-pane::before { padding-inline: clamp(14px, 1.5vw, 22px); }
+  .mk-pane > :first-child { border-left: 0; }
+  #panePrint { border-top: 2px solid var(--mk-fg); }
 }
-@media (min-width: 901px) and (max-width: 1240px) {
-  /* узкая колонка M: в одну колонку, а настройки выбранного нанесения — отдельной третьей вкладкой */
+/* Колонка M средней ширины (окно 1024–1260px): слои и настройки по-прежнему рядом, в две колонки, но плотнее */
+@media (min-width: 1024px) and (max-width: 1260px) {
+  #panePrint { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .mk-panel .mk-pane > *, .mk-panel .mk-pane::before { padding-inline: 14px; }
+  .mk-bar::before { padding: 0 14px; }
+  .mk-rows { column-gap: 12px; }
+  .mk-rows > [data-for="text"] { grid-column: 1 / -1; }
+  .mk-seg button { letter-spacing: .04em; }
+  .mk-layers .lb button { width: 21px; }
+  .mk-ptabs button { padding: 0 14px; letter-spacing: .2em; }
+  .mk-act { padding: 0 12px; letter-spacing: .14em; }
+  .mk-add { gap: 6px; }
+  #sizeBox .mk-btn { padding: 0 7px; letter-spacing: .06em; }
+  .mk-add .mk-cap { letter-spacing: .1em; }
+  .mk-line { flex-wrap: wrap; }
+  #pMode button, #pPair button { flex: 1 1 auto; padding-inline: 5px; white-space: nowrap; }
+  .mk-inks { gap: 6px; }
+  .mk-tools span { display: none; }   /* арка узкая: панель над нанесением без подписи, иначе она шире арки */
+}
+@media (min-width: 1024px) and (max-width: 1119px) {
+  .mk-panel .mk-pane > *, .mk-panel .mk-pane::before { padding-inline: 12px; }
+  .mk-bar::before { padding: 0 12px; letter-spacing: .16em; }
+  .mk-rows { column-gap: 10px; }
+  .mk-seg button { font-size: 9px; letter-spacing: .02em; }
+  .mk-wid { display: none; }
+  .mk-bar { gap: 0; }
+  .mk-ptabs button { padding: 0 12px; letter-spacing: .14em; }
+  .mk-act { padding: 0 10px; letter-spacing: .1em; }
+  .mk-acts .mk-tip { margin-right: 8px; }
+}
+/* Узкая колонка M (окно до 1024px): вкладки те же, но части вкладки идут друг под другом; не хватит высоты — поле растёт */
+@media (min-width: 901px) and (max-width: 1023px) {
+  .mk-tools span { display: none; }
   #paneItem, #panePrint { grid-template-columns: minmax(0, 1fr); align-content: start; }
   .mk-pane > * + * { border-left: 0; border-top: 1px solid var(--mk-line); }
   .mk-pane > [hidden] + * { border-top: 0; }
-  .mk-nar { display: block; }
   .mk-wid { display: none; }
-  .mk-panel[data-pane="print"] .mk-main, .mk-panel[data-pane="edit"] .mk-side { display: none; }
-  .mk-panel[data-pane="edit"] .mk-main { border-top: 0; }
   .mk-bar { gap: 0; }
-  .mk-ptabs button { padding: 0 10px; letter-spacing: .12em; }
+  .mk-ptabs button { padding: 0 12px; letter-spacing: .14em; }
   .mk-act { padding: 0 10px; letter-spacing: .1em; }
   .mk-acts .mk-tip { margin-right: 8px; }
+}
+@media (min-width: 901px) and (max-width: 1240px) {
   .mk-top .crumbs { display: none; }
   .mk-top { grid-template-columns: 1fr; }
   .mk-title { padding: 0 var(--in) 0 calc(50% + 16px); }
